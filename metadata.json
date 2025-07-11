@@ -1,0 +1,6 @@
+{
+  "name": "ACT Companion AI",
+  "description": "An AI chatbot based on Acceptance and Commitment Therapy (ACT) principles to provide empathetic and mindful support. Users can select behavioral tags to guide the AI's responses.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}

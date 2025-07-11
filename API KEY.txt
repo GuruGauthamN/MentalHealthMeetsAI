@@ -1,0 +1,5 @@
+AIzaSyAzGrDB6XZ4efvVFPOecNBM-kUByunv4kY
+
+https://aistudio.google.com/apps/drive/16oqGycT7KBUga4LDvy1axIwR5mX2qB5v?showAssistant=true&showCode=true&showFileTree=true&showTreeView=true&showPreview=true&resourceKey=
+
+i want to make a an AI chatbot website, with the backend specifically in python, frontend in js, html,css. I want the chatbot to use gemini api (i have the gemini api key). the application of the chatbot is to act as an AI Chatbot on the lines of Acceptance and Commitment Therapy. I want it to be very empathetic, mindful, emotion regulating and listening. I want to add these as tags for the chatbot's behaviour (i want the chatbot to behave according to the tags specified). I want to also log all the responses of both the user and the chatbot, and store them in a google drive text file. I also want the chatbot to list out helpline numbers / websites if the user says something on the lines of self harm, violence and related things. i want to deploy this on netlify, by first uploading this to github.

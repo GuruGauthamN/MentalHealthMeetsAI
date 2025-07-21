@@ -1,9 +1,5 @@
 import type { ChatTag, Helpline } from './types.ts';
 
-// IMPORTANT: Replace with your actual Google Cloud Client ID. The user authenticating will need edit access to the doc below.
-export const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID_HERE';
-export const GOOGLE_DOC_ID = '1D-Yfj-ND5W2nIyY_zock-YQCBw3by_ir9Ue9XKZDA5w';
-
 // Note: The Google Gemini API Key is now sourced from the `process.env.API_KEY` environment variable.
 
 export const BEHAVIOR_TAGS: ChatTag[] = [

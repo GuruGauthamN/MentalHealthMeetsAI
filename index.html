@@ -27,11 +27,18 @@
   }
 }
 </script>
+<!-- Add Babel for in-browser JSX/TSX transpilation -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <link rel="stylesheet" href="/index.css">
 </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+    <!-- 
+      The script type is changed to "text/babel" to be processed by Babel Standalone.
+      data-presets tells Babel to use presets for React and TypeScript.
+      data-type="module" is crucial for Babel to handle ES module imports/exports correctly.
+    -->
+    <script type="text/babel" data-presets="react,typescript" data-type="module" src="./index.tsx"></script>
   <script type="module" src="/index.tsx"></script>
 </body>
 </html>

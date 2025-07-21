@@ -20,9 +20,9 @@
   <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.1.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
-    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@~18.2.0",
+    "react-dom/": "https://esm.sh/react-dom@~18.2.0/",
+    "react/": "https://esm.sh/react@~18.2.0/",
     "@google/genai": "https://esm.sh/@google/genai@^1.9.0"
   }
 }
@@ -36,6 +36,19 @@
 </head>
   <body>
     <div id="root"></div>
+    
+    <!--
+      Polyfill for `process.env` to prevent the app from crashing in a browser environment.
+      In a standard Node.js or bundled environment, a build tool like Vite or Webpack
+      replaces `process.env.API_KEY` with an actual secret key at build time.
+      GitHub Pages serves static files and doesn't have this build process, so `process` is undefined.
+      This shim prevents a "ReferenceError: process is not defined" crash.
+      IMPORTANT: You must replace the empty string with your actual Google Gemini API key for the AI to work.
+    -->
+    <script>
+      window.process = { env: { API_KEY: 'AIzaSyAzGrDB6XZ4efvVFPOecNBM-kUByunv4kY' } };
+    </script>
+
     <!-- 
       The script type is changed to "text/babel" to be processed by Babel Standalone.
       data-presets tells Babel to use presets for React and TypeScript.

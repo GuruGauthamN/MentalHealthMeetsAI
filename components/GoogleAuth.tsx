@@ -1,6 +1,6 @@
 
 import React from 'react';
-import type { GoogleUserProfile } from '../types';
+import type { GoogleUserProfile } from '../types.ts';
 
 interface GoogleAuthProps {
   isSignedIn: boolean;

@@ -1,8 +1,8 @@
 
 import React from 'react';
-import type { ChatTag } from '../types';
-import { BEHAVIOR_TAGS } from '../constants';
-import { CheckIcon } from './icons/CheckIcon';
+import type { ChatTag } from '../types.ts';
+import { BEHAVIOR_TAGS } from '../constants.ts';
+import { CheckIcon } from './icons/CheckIcon.tsx';
 
 interface TagSelectorProps {
   selectedTags: Set<string>;

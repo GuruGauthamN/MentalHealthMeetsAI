@@ -1,8 +1,8 @@
 
 import React from 'react';
-import type { Helpline } from '../types';
-import { HELPLINE_INFO } from '../constants';
-import { XIcon } from './icons/XIcon';
+import type { Helpline } from '../types.ts';
+import { HELPLINE_INFO } from '../constants.ts';
+import { XIcon } from './icons/XIcon.tsx';
 
 interface HelplineModalProps {
   isOpen: boolean;

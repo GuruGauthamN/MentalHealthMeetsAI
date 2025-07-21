@@ -1,4 +1,4 @@
-import type { ChatTag, Helpline } from './types';
+import type { ChatTag, Helpline } from './types.ts';
 
 // IMPORTANT: Replace with your actual Google Cloud Client ID. The user authenticating will need edit access to the doc below.
 export const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID_HERE';

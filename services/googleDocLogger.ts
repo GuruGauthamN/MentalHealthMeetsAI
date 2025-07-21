@@ -1,5 +1,5 @@
-import { GOOGLE_CLIENT_ID, GOOGLE_DOC_ID } from '../constants';
-import type { Role, GoogleUserProfile } from '../types';
+import { GOOGLE_CLIENT_ID, GOOGLE_DOC_ID } from '../constants.ts';
+import type { Role, GoogleUserProfile } from '../types.ts';
 
 // This declares the 'gapi' object from the Google API script on the window
 declare const gapi: any;

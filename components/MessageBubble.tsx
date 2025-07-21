@@ -1,9 +1,9 @@
 
 import React from 'react';
-import type { Message } from '../types';
-import { Role } from '../types';
-import { UserIcon } from './icons/UserIcon';
-import { BotIcon } from './icons/BotIcon';
+import type { Message } from '../types.ts';
+import { Role } from '../types.ts';
+import { UserIcon } from './icons/UserIcon.tsx';
+import { BotIcon } from './icons/BotIcon.tsx';
 
 interface MessageBubbleProps {
   message: Message;

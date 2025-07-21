@@ -1,13 +1,14 @@
+
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { GoogleGenAI, Chat } from '@google/genai';
-import { Header } from './components/Header';
-import { TagSelector } from './components/TagSelector';
-import { ChatWindow } from './components/ChatWindow';
-import { ChatInput } from './components/ChatInput';
-import { HelplineModal } from './components/HelplineModal';
-import type { Message } from './types';
-import { Role } from './types';
-import { BEHAVIOR_TAGS, SENSITIVE_KEYWORDS } from './constants';
+import { Header } from './components/Header.tsx';
+import { TagSelector } from './components/TagSelector.tsx';
+import { ChatWindow } from './components/ChatWindow.tsx';
+import { ChatInput } from './components/ChatInput.tsx';
+import { HelplineModal } from './components/HelplineModal.tsx';
+import type { Message } from './types.ts';
+import { Role } from './types.ts';
+import { BEHAVIOR_TAGS, SENSITIVE_KEYWORDS } from './constants.ts';
 
 const App: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([

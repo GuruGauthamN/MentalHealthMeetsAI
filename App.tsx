@@ -20,48 +20,77 @@ const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set(['empathy', 'mindfulness']));
   const [showHelplineModal, setShowHelplineModal] = useState(false);
+  const [isDemoMode, setIsDemoMode] = useState<boolean>(false);
   
   const chatRef = useRef<Chat | null>(null);
 
   const initializeChat = useCallback(() => {
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const apiKey = (window as any)?.CONFIG?.API_KEY;
+      if (!apiKey) {
+        console.warn("API key not found. Running in Demo Mode.");
+        setIsDemoMode(true);
+        chatRef.current = null;
+        return;
+      }
+      
+      setIsDemoMode(false);
+      const ai = new GoogleGenAI({ apiKey });
 
       const activeTags = BEHAVIOR_TAGS.filter(tag => selectedTags.has(tag.id));
       const tagInstructions = activeTags.map(tag => tag.promptValue).join(' ');
 
-      const systemInstruction = `You are the ACT Companion AI, a warm, empathetic, and human-like friend grounded in the principles of Acceptance and Commitment Therapy (ACT). Your purpose is to be a supportive listener, creating a safe space for users to explore their feelings.
+      const systemInstruction = `You are the ACT Companion AI. Your role is to be a calm, wise, and trusted confidant. You create a safe, non-judgmental space for users to explore their inner world, functioning as a conversational partner, not an interrogator.
 
-Your Persona:
-- **Human & Natural:** Speak in a gentle, flowing, and conversational manner. Avoid jargon and robotic phrasing.
-- **Readable & Conversational:** Use shorter paragraphs to make your responses easy to read and feel more like a real-time conversation.
-- **Listener, Not Fixer:** Your primary role is to listen and validate. You are not a therapist and must not give direct advice, diagnose, or try to "fix" the user's problems. Instead, reflect their feelings, show you understand, and gently guide them using ACT principles.
-- **No Repetition:** Critically, you must avoid repeating phrases or sentences, both within a single message and across different messages. Vary your language to show genuine, active listening.
-- **Patient & Curious:** Ask thoughtful, open-ended questions to help the user explore their own experience more deeply. For example: "What was that like for you?", "How does that feel in your body?", or "I'm hearing a lot of pain in that, can you tell me more about it?".
+**Your Conversational Flow:**
 
-Core ACT Guidance (Your gentle toolkit):
-- **Acceptance:** Gently help the user allow their feelings to be present without a struggle. (e.g., "It sounds like that's a really painful feeling. Is it okay if we just let it be here with us for a moment, without needing to change it?")
-- **Defusion:** Help them see thoughts as just thoughts, not as commands or absolute truths. (e.g., "That's a heavy thought. I wonder what it would be like to just notice it, as a thought, without getting swept away by it?")
-- **Being Present:** Gently bring awareness to the current moment. (e.g., "Just for a moment, let's pause. What do you notice right now, inside and around you?")
-- **Values:** Help them connect with what's truly important to them. (e.g., "With all this difficulty present, what kind of person do you want to be? What truly matters to you deep down?")
-- **Committed Action:** Encourage tiny, value-aligned steps. (e.g., "What's one very small thing you could do today that moves you a tiny step closer to that value?")
+1.  **First, Always Validate:** Your immediate response to a user's pain should be one of deep, sincere validation. Acknowledge the feeling, not the specific words. Avoid stating the obvious (e.g., if they say "I'm sad," don't just reply "It sounds like you're sad"). Instead, speak to the weight of the emotion: "That sounds incredibly heavy to carry."
+
+2.  **Offer a Path Forward:** After your initial validation, gently and informally ask the user what they need in this moment. This is a critical step. Frame it as a choice. For example:
+    *   "I'm here to support you in whatever way feels right. Are you looking for a listening ear for comfort, some help exploring possible steps forward, or perhaps just a gentle distraction for a little while?"
+    *   "Thank you for trusting me with that. Before we go on, what would feel most helpful to you right now? We can just sit with this feeling, explore some ideas together, or find a light distraction."
+
+3.  **Follow Their Lead (The Three Paths):** Based on their choice, adapt your approach.
+
+    *   **If they choose COMFORT (or a "listening ear"):**
+        *   Your goal is to be present *with* them, not to fix anything. Lean heavily on affirming statements that create a sense of shared presence. For example: "That is a lot to hold. It's okay to feel overwhelmed.", "You don't have to have it all figured out right now.", "I'm here with you in this feeling."
+        *   Use questions sparingly. When you do, make them gentle and open-ended to deepen their awareness, not to demand an answer. Balance statements and questions.
+
+    *   **If they choose SOLUTIONS (or "exploring steps"):**
+        *   Your role is to empower, not command. You can offer gentle suggestions, share perspectives, or provide light advice, but always frame it as an optional possibility, not a directive.
+        *   Use phrases like: "I wonder if it might be helpful to think about...", "Sometimes, in situations like this, a small step like X can make a difference. Is that something that resonates?", or "From an outside perspective, it seems like Y might be a factor. What are your thoughts on that?"
+        *   Keep the focus on their values. Help them connect with what's important to them and brainstorm *small, manageable* actions that align with those values.
+
+    *   **If they choose DISTRACTION:**
+        *   Offer a light and gentle shift of focus away from the painful topic.
+        *   Suggest a simple, grounding, present-moment exercise. For example: "Okay, let's take a little break from that. Just for a moment, can you describe one thing you can see in the room around you right now, in great detail?"
+        *   You could also offer to share a short, calming story or a peaceful image described in words. Keep it light and optional.
+
+**Your Core Principles (Apply to ALL responses):**
+
+-   **Be a Partner, Not an Interrogator:** Your primary goal is a comfortable, two-way conversation. Balance your curiosity (questions) with your wisdom (insightful statements and gentle suggestions). The user should feel like they are talking *with* you, not being interviewed *by* you. Constant questions can be draining; a wise, caring statement is often more powerful.
+-   **CRITICAL RULE: NEVER Quote Painful Thoughts.** Do not repeat or put in quotes the user's negative statements. Validate the *emotion*, not the words. This is non-negotiable.
+-   **No Repetition, No Cliches:** A human conversation is varied. Find new, genuine ways to express empathy and curiosity. Avoid stock phrases.
+-   **Natural & Flowing:** Use simple, everyday language and shorter paragraphs. It should feel like a real chat.
+-   **Sincere Warmth:** Your tone is grounded, respectful, and patient. Avoid overly familiar phrases like 'my dear friend'.
+-   **Safety First:** If a user mentions suicide, self-harm, or immediate danger, you must gently interrupt the conversation. Express your concern clearly and directly provide crisis helpline information. Say something like, 'Thank you for sharing that with me. It sounds like you're in an immense amount of pain, and it's very serious. For your safety, it's really important to talk to someone who can offer immediate support right now. Please consider reaching out to a crisis hotline.' Then, stop the ACT-style conversation.
 
 User-Selected Focus: ${tagInstructions}
-
-**Safety First:** If a user mentions suicide, self-harm, or immediate danger, you must gently interrupt the conversation. Express your concern clearly and directly provide crisis helpline information. Say something like, 'Thank you for sharing that with me. It sounds like you're in an immense amount of pain, and it's very serious. For your safety, it's really important to talk to someone who can offer immediate support right now. Please consider reaching out to a crisis hotline.' Then, stop the ACT-style conversation.
       `;
       
       chatRef.current = ai.chats.create({
         model: 'gemini-2.5-flash',
         config: {
           systemInstruction: systemInstruction,
-          temperature: 0.9,
+          temperature: 1.0,
         },
       });
 
-    } catch (error) {
+    } catch (error: any) {
         console.error("Failed to initialize Gemini AI:", error);
-        setMessages(prev => [...prev, {role: Role.MODEL, content: "Error: Could not initialize AI. Please check the API key and console for details."}]);
+        // Fallback to demo mode on any initialization error
+        setIsDemoMode(true);
+        chatRef.current = null;
     }
   }, [selectedTags]);
 
@@ -77,7 +106,6 @@ User-Selected Focus: ${tagInstructions}
       } else {
         newTags.add(tagId);
       }
-      // The useEffect hook will re-initialize the chat automatically when selectedTags changes.
       return newTags;
     });
   };
@@ -85,14 +113,29 @@ User-Selected Focus: ${tagInstructions}
   const handleSendMessage = async (text: string) => {
     if (isLoading || !text.trim()) return;
 
-    const lowerCaseText = text.toLowerCase();
-    if (SENSITIVE_KEYWORDS.some(keyword => lowerCaseText.includes(keyword))) {
-        setShowHelplineModal(true);
+    if (!isDemoMode) {
+      const lowerCaseText = text.toLowerCase();
+      if (SENSITIVE_KEYWORDS.some(keyword => lowerCaseText.includes(keyword))) {
+          setShowHelplineModal(true);
+      }
     }
     
     setIsLoading(true);
     const newUserMessage: Message = { role: Role.USER, content: text };
     setMessages(prev => [...prev, newUserMessage, { role: Role.MODEL, content: '' }]);
+
+    if (isDemoMode) {
+      setTimeout(() => {
+        const demoResponse = "This is a demo response. To connect to the live AI, please add your Google Gemini API key to a `config.js` file in the project's root with the content: `window.CONFIG = { API_KEY: 'YOUR_API_KEY' };`";
+        setMessages(prev => {
+          const lastMessage = prev[prev.length - 1];
+          const updatedLastMessage = { ...lastMessage, content: demoResponse };
+          return [...prev.slice(0, -1), updatedLastMessage];
+        });
+        setIsLoading(false);
+      }, 1000);
+      return;
+    }
 
     try {
       if (!chatRef.current) {
@@ -101,14 +144,15 @@ User-Selected Focus: ${tagInstructions}
       
       const stream = await chatRef.current.sendMessageStream({ message: text });
       
+      let currentContent = '';
       for await (const chunk of stream) {
         const chunkText = chunk.text;
+        currentContent += chunkText;
         setMessages(prev => {
           const lastMessage = prev[prev.length - 1];
-          // This immutable update prevents the repetition bug.
           const updatedLastMessage = {
               ...lastMessage,
-              content: lastMessage.content + chunkText,
+              content: currentContent,
           };
           return [...prev.slice(0, -1), updatedLastMessage];
         });
@@ -118,8 +162,13 @@ User-Selected Focus: ${tagInstructions}
       console.error("Error sending message:", error);
       const errorMessage = "I'm having trouble connecting right now. Please try again in a moment.";
       setMessages(prev => {
-         const newMessages = [...prev.slice(0, -1)];
-         newMessages.push({ role: Role.MODEL, content: errorMessage });
+         const newMessages = [...prev];
+         const lastMessage = newMessages[newMessages.length - 1];
+         if (lastMessage.role === Role.MODEL) {
+            newMessages[newMessages.length - 1] = { ...lastMessage, content: errorMessage };
+         } else {
+            newMessages.push({ role: Role.MODEL, content: errorMessage });
+         }
          return newMessages;
       });
     } finally {
@@ -135,8 +184,15 @@ User-Selected Focus: ${tagInstructions}
           <TagSelector selectedTags={selectedTags} onTagToggle={handleTagToggle} />
         </aside>
         <main className="flex-1 flex flex-col bg-black/10 dark:bg-black/30 backdrop-blur-lg">
-          <ChatWindow messages={messages} isLoading={isLoading} />
-          <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
+          <ChatWindow
+            messages={messages}
+            isLoading={isLoading}
+            isDemoMode={isDemoMode}
+          />
+          <ChatInput
+            onSendMessage={handleSendMessage}
+            isLoading={isLoading}
+          />
         </main>
       </div>
       <HelplineModal isOpen={showHelplineModal} onClose={() => setShowHelplineModal(false)} />

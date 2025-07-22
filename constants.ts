@@ -1,6 +1,8 @@
 import type { ChatTag, Helpline } from './types.ts';
 
-// Note: The Google Gemini API Key is now sourced from the `process.env.API_KEY` environment variable.
+// Note: The Google Gemini API Key is sourced from a `config.js` file in the root directory.
+// For local development, you must create this file.
+// It will be generated automatically during deployment via GitHub Actions.
 
 export const BEHAVIOR_TAGS: ChatTag[] = [
   {

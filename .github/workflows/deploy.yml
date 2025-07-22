@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # Or master, depending on your default branch name
+      - main  # Or master, depending on your default branch name
 
 jobs:
   build-and-deploy:
@@ -17,10 +17,13 @@ jobs:
           echo "window.CONFIG = { API_KEY: '${{ secrets.GEMINI_API_KEY }}' };" > config.js
         shell: bash
 
+      - name: Prepare deployment folder 📁
+        run: |
+          mkdir build
+          mv index.html config.js build/
+
       - name: Deploy 🚀
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
-          # This will publish all files in your repo root (including the new config.js)
-          # to the gh-pages branch.
+          publish_dir: ./build

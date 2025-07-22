@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ACT Companion AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-image: url('/MentalHealthMeetsAI.github.io/assets/background-C2YXECTo.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+    </style>
+
+<!-- Add Babel for in-browser JSX/TSX transpilation -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link rel="stylesheet" href="/index.css">
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.3.1",
+    "react/": "https://esm.sh/react@18.3.1/",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
+    "@google/genai": "https://esm.sh/@google/genai@1.15.0"
+  }
+}
+</script>
+  <script type="module" crossorigin src="/MentalHealthMeetsAI.github.io/assets/index-Dv6-LO6Y.js"></script>
+</head>
+  <body>
+    <div id="root"></div>
+    
+    <!--
+      Polyfill for `process.env` to prevent the app from crashing in a browser environment.
+      In a standard Node.js or bundled environment, a build tool like Vite or Webpack
+      replaces `process.env.API_KEY` with an actual secret key at build time.
+      GitHub Pages serves static files and doesn't have this build process, so `process` is undefined.
+      This shim prevents a "ReferenceError: process is not defined" crash.
+      IMPORTANT: You must replace the empty string with your actual Google Gemini API key for the AI to work.
+    -->
+    <script>
+      // Replace '' with your actual Google Gemini API Key
+      window.process = { env: { API_KEY: 'AIzaSyAzGrDB6XZ4efvVFPOecNBM-kUByunv4kY' } };
+    </script>
+
+    <!-- 
+      The script type is changed to "text/babel" to be processed by Babel Standalone.
+      data-presets tells Babel to use presets for React and TypeScript.
+      data-type="module" is crucial for Babel to handle ES module imports/exports correctly.
+    -->
+    <script type="text/babel" data-presets="react,typescript" data-type="module" src="./index.tsx"></script>
+</body>
+</html>

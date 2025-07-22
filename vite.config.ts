@@ -5,7 +5,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
 
   return {
-    base: '/MentalHealthMeetsAI.github.io/', // 🔁 Replace with your actual GitHub repo name
+    base: '/MentalHealthMeetsAI', // 🔁 Replace with your actual GitHub repo name
     define: {
       'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)

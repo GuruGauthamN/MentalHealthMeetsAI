@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://GuruGauthamN.github.io/MentalHealthMeetsAI.github.io",
+  "homepage": "https://GuruGauthamN.github.io/MentalHealthMeetsAI",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
